@@ -14,4 +14,14 @@ const userCreate = async (req, res) => {
   }
 };
 
-module.exports = { userCreate };
+const getAll = async (_req, res) => {
+  try {
+    const result = await userService.getAllUsers();
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: ERROR_500 }); 
+  }
+};
+
+module.exports = { userCreate, getAll };
