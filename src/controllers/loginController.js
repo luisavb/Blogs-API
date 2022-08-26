@@ -2,16 +2,6 @@ const loginService = require('../services/loginService');
 
 const ERROR_500 = 'Something is wrong!';
 
-const create = async () => {
-  // try {
-  //   const { username, password } = req.body;
-  //   const result = await userService.create({ username, password });
-  //   return res.status(201).json(result);
-  // } catch (error) {
-  //   return res.status(500).json({ message: ERROR_500 });
-  // }
-};
-
 const login = async (req, res) => {
   const { email, password } = req.body;
   console.log('controller -', email, password);
@@ -25,4 +15,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { create, login };
+module.exports = { login };
