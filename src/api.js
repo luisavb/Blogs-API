@@ -12,6 +12,8 @@ app.use('/login', routes.loginRouter);
 
 app.use('/user', routes.userRouter);
 
+app.use('/categories', routes.categoryRouter);
+
 // ...
 
 // É importante exportar a constante `app`,

@@ -6,7 +6,7 @@ const auth = (req, res, next) => {
   try {
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
     jwt.verify(authorization, process.env.JWT_SECRET);
-    // req.email = dados.email;
+    console.log('amigo estou aqui');
     next();
   } catch (error) {
     res.status(401).json({ message: 'Expired or invalid token' });
