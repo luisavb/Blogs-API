@@ -14,8 +14,10 @@ const userCreate = async (req, res) => {
   }
 };
 
-const getAll = async (_req, res) => {
+const getAll = async (req, res) => {
   try {
+    const { email } = req;
+    console.log('oi eu sou um teste no usercontoler - ', email);
     const result = await userService.getAllUsers();
     res.status(200).json(result);
   } catch (error) {
