@@ -12,4 +12,6 @@ userRouter.post('/',
   authentication.auth,
   postController.postCreate);
 
+userRouter.get('/', authentication.auth, postController.getAllPost);
+
 module.exports = userRouter;
