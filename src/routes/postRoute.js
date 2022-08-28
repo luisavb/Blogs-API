@@ -7,13 +7,19 @@ const authentication = require('../middlewares/auth');
 const userRouter = Router();
 
 userRouter.post('/',
-  validation.postValidation1,
-  validation.postValidation2,
+  validation.postVldFields,
+  validation.postVldCategory,
   authentication.auth,
   postController.postCreate);
 
 userRouter.get('/', authentication.auth, postController.getAllPost);
 
 userRouter.get('/:id', authentication.auth, postController.getByIdPost);
+
+userRouter.put('/:id', 
+  authentication.auth,
+  validation.canUserUpdate,
+  validation.postVldFields2,
+  postController.updatePost);
 
 module.exports = userRouter;

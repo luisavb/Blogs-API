@@ -5,8 +5,8 @@ const ERROR_500 = 'Something is wrong!';
 const postCreate = async (req, res) => {
   try {
     const newPost = req.body;
-    const { email } = req;
-    const result = await postService.createPost(email, newPost);
+    const { id } = req;
+    const result = await postService.createPost(id, newPost);
     res.status(201).json(result);
   } catch (error) {
     console.log(error);
@@ -36,4 +36,16 @@ const getByIdPost = async (req, res) => {
   }
 };
 
-module.exports = { postCreate, getAllPost, getByIdPost };
+const updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updtPost = req.body;
+    const result = await postService.update(id, updtPost);
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: ERROR_500 }); 
+  }
+};
+
+module.exports = { postCreate, getAllPost, getByIdPost, updatePost };

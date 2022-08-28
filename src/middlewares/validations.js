@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { Category } = require('../database/models');
+const { Category, BlogPost } = require('../database/models');
 
 const loginSchema = Joi.object({
   email: Joi.string().required(),
@@ -42,22 +42,53 @@ const postSchema = Joi.object({
   categoryIds: Joi.array().required(),
 });
 
-const postValidation1 = (req, res, next) => {
+const postVldFields = (req, res, next) => {
   if (!req.body) return res.status(400).json({ message: 'helooooow passa o body' });
   const { error } = postSchema.validate(req.body);
   if (error) return res.status(400).json({ message: 'Some required fields are missing' });
   next();
 };
 
-const postValidation2 = async (req, res, next) => {
+const postSchema2 = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
+
+const postVldFields2 = (req, res, next) => {
+  if (!req.body) return res.status(400).json({ message: 'helooooow passa o body' });
+  const { error } = postSchema2.validate(req.body);
+  if (error) return res.status(400).json({ message: 'Some required fields are missing' });
+  next();
+};
+
+const postVldCategory = async (req, res, next) => {
   const { categoryIds } = req.body;
   const { count } = await Category.findAndCountAll({ where: { id: categoryIds } });
-  console.log('tô em validations --', count);
+  
   if (count < categoryIds.length) {
     return res.status(400).json({ message: '"categoryIds" not found' });
   }
   next();
 };
 
-const validation = { userValidation, loginValidation, postValidation1, postValidation2 };
+const canUserUpdate = async (req, res, next) => {
+  const userAuthId = req.id;
+  const postId = req.params.id;
+  const postToBeUpdated = await BlogPost.findByPk(postId);
+  console.log('tô em validations --', postToBeUpdated);
+  if (!postToBeUpdated) return res.status(404).json({ message: 'Post does not exist' });
+  if (postToBeUpdated.userId !== userAuthId) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+  next();
+};
+
+const validation = { 
+  userValidation,
+  loginValidation,
+  postVldFields,
+  postVldCategory,
+  postVldFields2,
+  canUserUpdate,
+};
 module.exports = validation;
