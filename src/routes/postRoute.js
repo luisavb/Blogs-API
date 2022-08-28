@@ -18,8 +18,13 @@ userRouter.get('/:id', authentication.auth, postController.getByIdPost);
 
 userRouter.put('/:id', 
   authentication.auth,
-  validation.canUserUpdate,
+  validation.canUserModify,
   validation.postVldFields2,
   postController.updatePost);
+
+userRouter.delete('/:id', 
+  authentication.auth,
+  validation.canUserModify,
+  postController.deletePost);
 
 module.exports = userRouter;

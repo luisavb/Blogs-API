@@ -71,7 +71,7 @@ const postVldCategory = async (req, res, next) => {
   next();
 };
 
-const canUserUpdate = async (req, res, next) => {
+const canUserModify = async (req, res, next) => {
   const userAuthId = req.id;
   const postId = req.params.id;
   const postToBeUpdated = await BlogPost.findByPk(postId);
@@ -89,6 +89,6 @@ const validation = {
   postVldFields,
   postVldCategory,
   postVldFields2,
-  canUserUpdate,
+  canUserModify,
 };
 module.exports = validation;
